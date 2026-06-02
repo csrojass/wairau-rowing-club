@@ -52,7 +52,7 @@ const ctaFor = (p) => {
     <div class="max-w-5xl mx-auto space-y-20">
       {programs.map((p, i) => {
         const cta = ctaFor(p);
-        const img = imageUrl(p.image?.asset, { width: 800 }) || `/images/program-${p.slug.replace('-rowing', '')}.jpg`;
+        const img = imageUrl(p.image, { width: 800 }) || `/images/program-${p.slug.replace('-rowing', '')}.jpg`;
         return (
           <article id={p.slug} class={`scroll-mt-24 grid md:grid-cols-5 gap-12 items-center ${i % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}>
             <div class="md:col-span-2">

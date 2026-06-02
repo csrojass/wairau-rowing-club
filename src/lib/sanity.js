@@ -1,4 +1,5 @@
 import { createClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
 import {
   announcements as fallbackAnnouncements,
   programs as fallbackPrograms,
@@ -43,25 +44,36 @@ async function fetchOr(query, fallback, params = {}) {
   }
 }
 
-// Build a CDN URL for a Sanity image reference.
-export function imageUrl(asset, { width, height } = {}) {
-  if (!asset?._ref || !projectId) return null;
-  const m = asset._ref.match(/^image-([a-f0-9]+)-(\d+x\d+)-([a-z]+)$/);
-  if (!m) return null;
-  const [, id, dim, ext] = m;
-  let url = `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dim}.${ext}`;
-  const params = [];
-  if (width) params.push(`w=${width}&auto=format`);
-  else params.push('auto=format');
-  if (height) params.push(`h=${height}`);
-  if (params.length) url += '?' + params.join('&');
-  return url;
+const builder = projectId
+  ? imageUrlBuilder({ projectId, dataset })
+  : null;
+
+// Build a CDN URL for a Sanity image — supports the full image object
+// (asset + crop + hotspot) or a bare asset reference.
+// Accepts either:
+//   imageUrl({ asset: { _ref }, crop, hotspot }, { width })
+//   imageUrl({ _ref }, { width })              // legacy callers
+export function imageUrl(source, { width, height } = {}) {
+  if (!builder) return null;
+  // Legacy: callers pass `p.image?.asset` — wrap it back to a full image obj.
+  if (source && source._ref && !source.asset) {
+    source = { asset: source };
+  }
+  if (!source?.asset?._ref) return null;
+  try {
+    let b = builder.image(source).auto('format').fit('crop');
+    if (width) b = b.width(width);
+    if (height) b = b.height(height);
+    return b.url();
+  } catch (err) {
+    console.warn('[sanity] image url failed:', err.message);
+    return null;
+  }
 }
 
-// Resolve a Sanity image reference, or fall back to a local path.
+// Resolve a Sanity image, or fall back to a local path.
 export function resolveImage(image, fallbackPath, opts) {
-  if (image?.asset?._ref) return imageUrl(image.asset, opts);
-  return fallbackPath;
+  return imageUrl(image, opts) || fallbackPath;
 }
 
 // Block content → plain paragraphs (good enough for the simple intro field).
@@ -101,7 +113,7 @@ export async function fetchAnnouncements({ limit = 12 } = {}) {
       date: d.date,
       category: d.category,
       excerpt: d.excerpt,
-      image: imageUrl(d.image?.asset, { width: 800 }) || null,
+      image: imageUrl(d.image, { width: 800 }) || null,
     })),
     source,
   };
