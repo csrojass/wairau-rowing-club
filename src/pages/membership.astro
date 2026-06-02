@@ -73,8 +73,8 @@ const { rowingConnect } = await fetchSettings();
         <h2 class="font-display font-extrabold text-2xl text-navy mb-2">Membership Enquiry</h2>
         <p class="text-slate-600 mb-8">Send us a quick note and we'll be in touch within a couple of days.</p>
 
-        <form name="membership-enquiry" method="POST" data-netlify="true" class="space-y-5">
-          <input type="hidden" name="form-name" value="membership-enquiry" />
+        <form action="https://wrc-forms.csrojas.workers.dev/forms/membership" method="POST" class="space-y-5">
+          <input type="text" name="_hp" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label for="firstName" class="block text-sm font-semibold text-navy mb-1.5">First name *</label>

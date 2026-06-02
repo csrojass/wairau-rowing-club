@@ -59,8 +59,8 @@ const { contacts } = await fetchContacts();
           <h2 class="font-display font-extrabold text-2xl text-navy mb-2">Send a message</h2>
           <p class="text-slate-600 text-sm mb-7">We'll route it to the right person.</p>
 
-          <form name="contact" method="POST" data-netlify="true" class="space-y-5">
-            <input type="hidden" name="form-name" value="contact" />
+          <form action="https://wrc-forms.csrojas.workers.dev/forms/contact" method="POST" class="space-y-5">
+            <input type="text" name="_hp" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
             <div class="grid sm:grid-cols-2 gap-5">
               <div>
                 <label for="name" class="block text-sm font-semibold text-navy mb-1.5">Name *</label>

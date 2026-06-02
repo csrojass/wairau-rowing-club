@@ -1,0 +1,9 @@
+name = "wrc-forms"
+main = "src/index.js"
+compatibility_date = "2026-06-02"
+
+# Secrets to set via `wrangler secret put`:
+#   RESEND_API_KEY   — sign up at resend.com, free 100/day
+#   TO_EMAIL         — where form submissions are sent (e.g. wairaurowingsecretary@gmail.com)
+#   FROM_EMAIL       — sender; must be a verified Resend domain (e.g. forms@yourdomain or onboarding@resend.dev for testing)
+#   SITE_ORIGIN      — the production site URL, used for CORS allowlist
