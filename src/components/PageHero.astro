@@ -1,0 +1,33 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+}
+const { eyebrow, title, subtitle } = Astro.props;
+---
+
+<section class="relative bg-navy text-white overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-navy via-[#0a3a22] to-ocean opacity-95"></div>
+  <div class="absolute inset-0 bg-water-pattern opacity-40"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+    {eyebrow && (
+      <div class="inline-flex items-center gap-2 bg-teal/15 text-teal px-4 py-1.5 rounded-full text-xs font-bold tracking-[0.18em] uppercase mb-5">
+        {eyebrow}
+      </div>
+    )}
+    <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-4xl">
+      {title}
+    </h1>
+    {subtitle && (
+      <p class="mt-5 text-lg lg:text-xl text-white/70 max-w-2xl leading-relaxed">{subtitle}</p>
+    )}
+  </div>
+
+  <div class="absolute bottom-0 left-0 right-0 leading-none">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-12">
+      <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="white"/>
+    </svg>
+  </div>
+</section>

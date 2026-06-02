@@ -1,0 +1,199 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { site, programs, announcements } from '../data/site.js';
+import { fetchEvents } from '../lib/events.js';
+
+const { events } = await fetchEvents();
+
+const fmtDate = (d) =>
+  new Date(d).toLocaleDateString('en-NZ', { day: 'numeric', month: 'short', year: 'numeric' });
+
+const upcoming = events.slice(0, 3);
+---
+
+<Layout title="Home">
+  <!-- HERO -->
+  <section class="relative bg-navy text-white overflow-hidden min-h-[92vh] flex items-end">
+    <img src="/images/hero.jpg" alt="" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-navy/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-navy/70 via-transparent to-transparent"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
+      <div class="max-w-3xl">
+        <div class="reveal inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-teal px-4 py-1.5 rounded-full text-xs font-semibold tracking-[0.18em] uppercase mb-6 border border-white/10">
+          <Icon name="wave" class="w-3.5 h-3.5" />
+          Marlborough · Since 1910
+        </div>
+        <h1 class="reveal delay-1 font-display text-5xl sm:text-6xl lg:text-8xl leading-[0.95] mb-6">
+          Rowing the<br />
+          <span class="font-script text-teal text-4xl sm:text-5xl lg:text-7xl block mt-3 ml-2">Wairau</span>
+        </h1>
+        <p class="reveal delay-2 text-white/85 text-lg sm:text-xl max-w-xl mb-10 leading-relaxed">
+          One river. Every level. Since 1910.
+        </p>
+        <div class="reveal delay-3 flex flex-wrap gap-3">
+          <a href="/membership" class="inline-flex items-center gap-2 bg-coral hover:bg-coral-600 text-white font-bold px-7 py-3.5 rounded-full transition-all shadow-lg hover:shadow-xl">
+            Become a Member
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="/programs" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-7 py-3.5 rounded-full transition-colors backdrop-blur border border-white/20">
+            Explore Programs
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section class="py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal max-w-2xl mb-14">
+        <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">What we do</div>
+        <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl text-navy leading-[1.05]">
+          Four ways<br /><span class="font-script text-ocean text-3xl sm:text-4xl lg:text-5xl block mt-2">on the water</span>
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {programs.map((p, i) => (
+          <a href={p.slug === 'alumni' ? '/alumni' : `/programs#${p.slug}`} class={`reveal delay-${i + 1} group relative aspect-[3/4] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all hover:-translate-y-1`}>
+            <img src={`/images/program-${p.slug.replace('-rowing', '')}.jpg`} alt={p.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent"></div>
+            <div class="absolute inset-0 p-6 flex flex-col justify-between text-white">
+              <div class="w-12 h-12 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center text-teal border border-white/20">
+                <Icon name={p.icon} class="w-6 h-6" />
+              </div>
+              <div>
+                <h3 class="font-display text-2xl leading-tight mb-1">{p.title}</h3>
+                <p class="text-white/75 text-sm font-script">{p.tagline}</p>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT STRIP -->
+  <section class="bg-cream py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div class="reveal relative order-2 lg:order-1">
+        <div class="aspect-[4/5] rounded-3xl shadow-2xl overflow-hidden">
+          <img src="/images/about.jpg" alt="On the river" class="w-full h-full object-cover" />
+        </div>
+        <div class="absolute -bottom-6 -right-6 bg-ocean text-white rounded-2xl px-6 py-5 shadow-xl hidden sm:block">
+          <div class="font-script text-3xl leading-none">1910</div>
+          <div class="text-[10px] uppercase tracking-[0.2em] mt-2 text-teal">Founded</div>
+        </div>
+      </div>
+
+      <div class="reveal delay-2 order-1 lg:order-2">
+        <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">Our home</div>
+        <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl text-navy leading-[1.05] mb-7">
+          11 km of <span class="font-script text-ocean text-3xl sm:text-4xl lg:text-5xl">flat water.</span>
+        </h2>
+        <p class="text-slate-700 text-lg leading-relaxed mb-8">
+          The Wairau runs 170 km from the Spenser Mountains to the sea — the calm 11 km past our boathouse is one of the country’s finest stretches for rowing.
+        </p>
+        <a href="/about" class="inline-flex items-center gap-2 text-ocean font-bold hover:text-coral transition-colors">
+          Read our story
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LATEST NEWS -->
+  <section class="py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+        <div>
+          <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">Latest</div>
+          <h2 class="font-display text-4xl sm:text-5xl text-navy">News</h2>
+        </div>
+        <a href="/news" class="text-ocean font-bold hover:text-coral transition-colors inline-flex items-center gap-1">
+          All news
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        {announcements.map((a, i) => (
+          <article class={`reveal delay-${i + 1} group`}>
+            <div class="aspect-[4/5] rounded-2xl overflow-hidden mb-4 shadow-sm">
+              <img src={`/images/news-${i + 1}.jpg`} alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-xs font-bold text-coral uppercase tracking-wider">{a.category}</span>
+              <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+              <time class="text-xs text-slate-500">{fmtDate(a.date)}</time>
+            </div>
+            <h3 class="font-display text-2xl text-navy leading-tight group-hover:text-ocean transition-colors">{a.title}</h3>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="bg-cream py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+        <div class="max-w-2xl">
+          <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">What's on</div>
+          <h2 class="font-display text-4xl sm:text-5xl text-navy">Upcoming</h2>
+        </div>
+        <a href="/regattas" class="text-ocean font-bold hover:text-coral transition-colors inline-flex items-center gap-1">
+          Full calendar
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {upcoming.map((e, i) => {
+          const d = new Date(e.date);
+          const day = d.getDate();
+          const month = d.toLocaleDateString('en-NZ', { month: 'short' }).toUpperCase();
+          return (
+            <div class={`reveal delay-${i + 1} bg-white rounded-2xl p-6 flex gap-5 items-start hover:shadow-md transition-shadow`}>
+              <div class="bg-navy text-white rounded-xl p-3 text-center min-w-[72px]">
+                <div class="font-script text-3xl leading-none text-teal">{day}</div>
+                <div class="text-[10px] font-bold tracking-[0.2em] mt-1.5 text-white/80">{month}</div>
+              </div>
+              <div class="flex-1 pt-1">
+                <h3 class="font-display text-lg text-navy leading-tight mb-1.5">{e.title}</h3>
+                <div class="text-sm text-slate-500 space-y-0.5">
+                  <div>{e.time}</div>
+                  <div class="text-xs">{e.location}</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- JOIN CTA -->
+  <section class="relative bg-navy text-white overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-navy via-ocean/40 to-navy"></div>
+    <div class="absolute inset-0 bg-water-pattern opacity-30"></div>
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 text-center">
+      <h2 class="reveal font-display text-4xl sm:text-5xl lg:text-6xl mb-6 leading-[1.05]">
+        Get on the <span class="font-script text-teal text-3xl sm:text-4xl lg:text-5xl">water.</span>
+      </h2>
+      <p class="reveal delay-1 text-white/75 text-lg max-w-xl mx-auto mb-10">
+        Whether you've never picked up an oar or you're chasing personal bests.
+      </p>
+      <div class="reveal delay-2 flex flex-wrap gap-3 justify-center">
+        <a href="/membership" class="bg-coral hover:bg-coral-600 text-white font-bold px-8 py-3.5 rounded-full transition-colors shadow-lg">
+          Become a Member
+        </a>
+        <a href="/contact" class="bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 rounded-full transition-colors border border-white/20 backdrop-blur">
+          Get in touch
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

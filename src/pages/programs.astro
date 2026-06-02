@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { programs, programmeIntro, pathways, corporateContact } from '../data/site.js';
+
+// Pre-build the corporate mailto so the encoding happens once.
+const corporateMailto = `mailto:${corporateContact.email}?subject=${encodeURIComponent(corporateContact.subject)}&body=${encodeURIComponent(corporateContact.body)}`;
+
+const ctaFor = (slug) => {
+  if (slug === 'alumni') return { href: '/alumni', label: 'Reconnect' };
+  if (slug === 'corporate-rowing') return { href: corporateMailto, label: `Email ${corporateContact.name.split(' ')[0]}` };
+  return { href: '/membership', label: 'Get involved' };
+};
+---
+
+<Layout title="Programs">
+  <PageHero
+    eyebrow="Four ways"
+    title="On the water, at every level."
+  />
+
+  <!-- Programme intro from official WRC programme description -->
+  <section class="py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="reveal max-w-3xl mx-auto space-y-5 text-slate-700">
+      <p class="font-display text-xl sm:text-2xl text-navy leading-snug">
+        {programmeIntro[0]}
+      </p>
+      {programmeIntro.slice(1).map((para) => (
+        <p class="text-base sm:text-lg leading-relaxed">{para}</p>
+      ))}
+    </div>
+  </section>
+
+  <!-- The four programmes -->
+  <section class="pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto space-y-20">
+      {programs.map((p, i) => (
+        <article id={p.slug} class={`scroll-mt-24 grid md:grid-cols-5 gap-12 items-center ${i % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`}>
+          <div class="md:col-span-2">
+            <div class="reveal aspect-[4/5] rounded-3xl shadow-xl overflow-hidden relative">
+              <img src={`/images/program-${p.slug.replace('-rowing', '')}.jpg`} alt={p.title} class="w-full h-full object-cover" />
+              <div class="absolute top-5 right-5 w-12 h-12 bg-white/95 backdrop-blur rounded-full flex items-center justify-center text-ocean shadow-lg">
+                <Icon name={p.icon} class="w-6 h-6" />
+              </div>
+            </div>
+          </div>
+          <div class="reveal delay-1 md:col-span-3">
+            <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">{String(i + 1).padStart(2, '0')} · {p.tagline}</div>
+            <h2 class="font-display text-4xl lg:text-5xl text-navy mb-5 leading-tight">{p.title}</h2>
+            <p class="text-slate-600 text-lg leading-relaxed mb-7">{p.summary}</p>
+            <ul class="space-y-3 mb-8">
+              {p.points.map((pt) => {
+                const point = typeof pt === 'string' ? { text: pt } : pt;
+                return (
+                  <li class="flex items-start gap-3 text-slate-700">
+                    <span class="w-1.5 h-1.5 rounded-full bg-ocean mt-2.5 flex-shrink-0"></span>
+                    {point.url ? (
+                      <a href={point.url} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-ocean hover:text-coral hover:underline transition-colors">
+                        {point.text}
+                        <svg class="w-3.5 h-3.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                      </a>
+                    ) : (
+                      <span>{point.text}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {(() => {
+              const cta = ctaFor(p.slug);
+              return (
+                <a href={cta.href} class="inline-flex items-center gap-2 bg-navy hover:bg-ocean text-white font-bold px-7 py-3 rounded-full transition-colors">
+                  {cta.label}
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+              );
+            })()}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Pathways: HP and Corporate as secondary callouts -->
+  <section class="bg-cream py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal text-center max-w-2xl mx-auto mb-12">
+        <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">Plus</div>
+        <h2 class="font-display text-3xl sm:text-4xl text-navy">Pathways &amp; events</h2>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        {pathways.map((p, i) => (
+          <div class={`reveal delay-${i + 1} bg-white rounded-2xl p-7 hover:shadow-lg transition-shadow flex gap-5`}>
+            <div class="w-14 h-14 rounded-full bg-ocean/10 text-ocean flex items-center justify-center flex-shrink-0">
+              <Icon name={p.icon} class="w-7 h-7" />
+            </div>
+            <div>
+              <h3 class="font-display text-xl text-navy mb-2">{p.title}</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">{p.summary}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

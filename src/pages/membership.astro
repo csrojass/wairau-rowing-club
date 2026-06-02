@@ -1,0 +1,118 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { rowingConnect } from '../data/site.js';
+---
+
+<Layout title="Membership">
+  <PageHero
+    eyebrow="Join the club"
+    title="Become a member."
+    subtitle="Get on the water with a community that's been rowing the Wairau for over a century."
+  />
+
+  <section class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-14">
+        <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-navy mb-4">How to join</h2>
+        <p class="text-slate-600 text-lg max-w-2xl mx-auto">Three simple steps and you're on the water.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 relative">
+          <div class="absolute -top-4 -left-4 w-12 h-12 bg-coral text-white rounded-xl flex items-center justify-center font-display font-extrabold text-xl shadow-lg">1</div>
+          <h3 class="font-display font-bold text-xl text-navy mt-4 mb-2">Get in touch</h3>
+          <p class="text-slate-600 text-sm">Email our Club Captain Kaye Surgenor — we'll answer questions and book a time to visit.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 relative">
+          <div class="absolute -top-4 -left-4 w-12 h-12 bg-coral text-white rounded-xl flex items-center justify-center font-display font-extrabold text-xl shadow-lg">2</div>
+          <h3 class="font-display font-bold text-xl text-navy mt-4 mb-2">Visit the club</h3>
+          <p class="text-slate-600 text-sm">Come down to the boathouse, meet the squad and see the water. No pressure — just a look around.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 relative">
+          <div class="absolute -top-4 -left-4 w-12 h-12 bg-coral text-white rounded-xl flex items-center justify-center font-display font-extrabold text-xl shadow-lg">3</div>
+          <h3 class="font-display font-bold text-xl text-navy mt-4 mb-2">Send an enquiry</h3>
+          <p class="text-slate-600 text-sm">Complete the form below and we'll get back to you within a couple of days.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-7 border-2 border-ocean relative">
+          <div class="absolute -top-4 -left-4 w-12 h-12 bg-ocean text-white rounded-xl flex items-center justify-center font-display font-extrabold text-xl shadow-lg">4</div>
+          <h3 class="font-display font-bold text-xl text-navy mt-4 mb-2">Register on Rowing Connect</h3>
+          <p class="text-slate-600 text-sm">Rowing NZ's free national platform — all members register individually so your data flows through to regattas via RowIT.</p>
+        </div>
+      </div>
+
+      <!-- Rowing Connect info banner -->
+      <div class="mb-16 bg-cream border-l-4 border-ocean rounded-r-2xl p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start">
+        <div class="flex-1">
+          <div class="text-xs font-bold uppercase tracking-[0.18em] text-coral mb-2">Step 4 · National registration</div>
+          <h3 class="font-display text-2xl text-navy mb-3">What is Rowing Connect?</h3>
+          <p class="text-sm text-slate-600 leading-relaxed mb-2">
+            Rowing Connect is Rowing NZ's national platform. Every rower, coach, race official and volunteer registers individually — for <strong>no cost</strong> — and your details flow through to RowIT, the national regatta entry &amp; results system.
+          </p>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Once you've enquired with us, we'll send you the Wairau Rowing Club registration link.
+          </p>
+        </div>
+        <div class="flex-shrink-0">
+          {rowingConnect.url ? (
+            <a href={rowingConnect.url} target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-coral hover:bg-coral-600 text-white font-bold px-6 py-3 rounded-full transition-colors shadow-md">
+              Register
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          ) : (
+            <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-500 font-semibold px-6 py-3 rounded-full">
+              Link coming soon
+            </div>
+          )}
+          <a href={rowingConnect.generalInfoUrl} target="_blank" rel="noopener" class="block mt-2 text-xs text-ocean hover:text-coral underline text-right">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-8 sm:p-10">
+        <h2 class="font-display font-extrabold text-2xl text-navy mb-2">Membership Enquiry</h2>
+        <p class="text-slate-600 mb-8">Send us a quick note and we'll be in touch within a couple of days.</p>
+
+        <form name="membership-enquiry" method="POST" data-netlify="true" class="space-y-5">
+          <input type="hidden" name="form-name" value="membership-enquiry" />
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label for="firstName" class="block text-sm font-semibold text-navy mb-1.5">First name *</label>
+              <input id="firstName" name="firstName" type="text" required class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent" />
+            </div>
+            <div>
+              <label for="lastName" class="block text-sm font-semibold text-navy mb-1.5">Last name *</label>
+              <input id="lastName" name="lastName" type="text" required class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent" />
+            </div>
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-semibold text-navy mb-1.5">Email *</label>
+            <input id="email" name="email" type="email" required class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent" />
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-semibold text-navy mb-1.5">Phone</label>
+            <input id="phone" name="phone" type="tel" class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent" />
+          </div>
+          <div>
+            <label for="program" class="block text-sm font-semibold text-navy mb-1.5">Which program interests you? *</label>
+            <select id="program" name="program" required class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent">
+              <option value="">Select a program</option>
+              <option>Club Rowing</option>
+              <option>College Rowing — Marlborough Girls' College</option>
+              <option>College Rowing — Marlborough Boys' College</option>
+              <option>Corporate Rowing</option>
+              <option>High Performance Pathway</option>
+              <option>Not sure — happy to chat</option>
+            </select>
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-semibold text-navy mb-1.5">Tell us a bit about yourself</label>
+            <textarea id="message" name="message" rows="4" placeholder="Rowing experience, age, anything we should know..." class="w-full rounded-lg border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent"></textarea>
+          </div>
+          <button type="submit" class="w-full sm:w-auto bg-coral hover:bg-coral-600 text-white font-bold px-8 py-4 rounded-xl transition-colors shadow-lg">
+            Send enquiry
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>

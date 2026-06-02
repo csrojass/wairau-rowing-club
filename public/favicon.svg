@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#0A1F14"/>
+  <path d="M14 14 L50 14 L50 38 C50 50 41 56 32 60 C23 56 14 50 14 38 Z"
+        fill="#0E6B3F" stroke="#FFFFFF" stroke-width="1.5"/>
+  <g stroke="#FFFFFF" stroke-width="2" stroke-linecap="round">
+    <line x1="22" y1="20" x2="38" y2="36"/>
+    <line x1="42" y1="20" x2="26" y2="36"/>
+  </g>
+  <text x="32" y="52" font-family="Georgia, serif" font-weight="900" font-size="11" text-anchor="middle" fill="#FFFFFF">WRC</text>
+</svg>

@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { rowingConnect, contacts, social, heritage } from '../data/site.js';
+
+const secretary = contacts.find((c) => c.role === 'Secretary');
+---
+
+<Layout title="Alumni" description="Reconnect with the Wairau Rowing Club. Past members and supporters welcome.">
+  <PageHero
+    eyebrow="Once a Wairau rower…"
+    title="…always a Wairau rower."
+  />
+
+  <!-- Welcome / intro -->
+  <section class="py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="reveal max-w-3xl mx-auto text-center">
+      <p class="font-display text-2xl sm:text-3xl text-navy leading-snug mb-8">
+        Are you a past member of the Wairau Rowing Club?
+      </p>
+      <div class="space-y-5 text-lg text-slate-700 leading-relaxed">
+        <p>Since 1910, the Wairau Rowing Club has provided a sporting and social home for rowing on the Wairau River.</p>
+        <p>All of us have, in our own way, contributed to the vibrancy, growth, longevity, sporting success and community of our club.</p>
+        <p class="text-navy font-medium">We’d love to have you aboard again.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three ways to reconnect -->
+  <section class="bg-cream py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal text-center mb-12">
+        <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">Reconnect</div>
+        <h2 class="font-display text-3xl sm:text-4xl text-navy">Three ways back.</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- 1. Rowing Connect -->
+        <div class="reveal bg-white rounded-3xl p-7">
+          <div class="w-14 h-14 rounded-full bg-ocean/10 text-ocean flex items-center justify-center mb-5">
+            <Icon name="boat" class="w-7 h-7" />
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-coral mb-2">01</div>
+          <h3 class="font-display text-2xl text-navy mb-3">Register on Rowing Connect</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mb-5">
+            Rowing NZ’s free national platform. Register as a supporter, previous member or volunteer — it costs nothing and keeps you in the loop.
+          </p>
+          {rowingConnect.url ? (
+            <a href={rowingConnect.url} target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-coral hover:bg-coral-600 text-white font-bold px-5 py-2.5 rounded-full text-sm transition-colors">
+              Register on Rowing Connect
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          ) : (
+            <div>
+              <div class="inline-flex items-center gap-2 bg-slate-200 text-slate-500 font-semibold px-5 py-2.5 rounded-full text-sm">
+                Link coming soon
+              </div>
+              <p class="text-xs text-slate-400 mt-3">
+                In the meantime — <a href={rowingConnect.generalInfoUrl} target="_blank" rel="noopener" class="text-ocean hover:text-coral underline">learn about Rowing Connect</a>.
+              </p>
+            </div>
+          )}
+        </div>
+
+        <!-- 2. Facebook -->
+        <div class="reveal delay-1 bg-white rounded-3xl p-7">
+          <div class="w-14 h-14 rounded-full bg-ocean/10 text-ocean flex items-center justify-center mb-5">
+            <Icon name="circle" class="w-7 h-7" />
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-coral mb-2">02</div>
+          <h3 class="font-display text-2xl text-navy mb-3">Follow on Facebook</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mb-5">
+            See what the current crews are up to, regatta results, and club photos. The fastest way back into the conversation.
+          </p>
+          {social.facebookUrl ? (
+            <a href={social.facebookUrl} target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-navy hover:bg-ocean text-white font-bold px-5 py-2.5 rounded-full text-sm transition-colors">
+              Find us on Facebook
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          ) : (
+            <div class="inline-flex items-center gap-2 bg-slate-200 text-slate-500 font-semibold px-5 py-2.5 rounded-full text-sm">
+              Link coming soon
+            </div>
+          )}
+        </div>
+
+        <!-- 3. Email -->
+        <div class="reveal delay-2 bg-white rounded-3xl p-7">
+          <div class="w-14 h-14 rounded-full bg-ocean/10 text-ocean flex items-center justify-center mb-5">
+            <Icon name="flow" class="w-7 h-7" />
+          </div>
+          <div class="text-xs font-bold uppercase tracking-wider text-coral mb-2">03</div>
+          <h3 class="font-display text-2xl text-navy mb-3">Drop us a line</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mb-5">
+            Got photos, stories, or memorabilia? Want to organise a reunion crew? Email our secretary {secretary?.name}.
+          </p>
+          {secretary?.email && (
+            <a href={`mailto:${secretary.email}`} class="inline-flex items-center gap-2 bg-white border-2 border-navy hover:bg-navy hover:text-white text-navy font-bold px-5 py-2.5 rounded-full text-sm transition-colors break-all">
+              {secretary.email}
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Heritage / First Minutes -->
+  <section class="py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="reveal max-w-3xl mx-auto bg-white border border-slate-200 rounded-3xl p-8 sm:p-10">
+      <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">From the archives</div>
+      <h3 class="font-display text-2xl sm:text-3xl text-navy mb-4">The 1910 first minutes.</h3>
+      <p class="text-slate-600 leading-relaxed mb-6">
+        Read the original committee minutes from <strong>31 July 1910</strong> — the day a site was chosen for the first boat shed at Grovetown, 15 yards north of the old culvert.
+      </p>
+      {heritage.firstMinutesPdf ? (
+        <a href={heritage.firstMinutesPdf} target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-navy hover:bg-ocean text-white font-bold px-6 py-3 rounded-full text-sm transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Open the PDF
+        </a>
+      ) : (
+        <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-500 font-semibold px-6 py-3 rounded-full text-sm">
+          PDF coming soon
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="reveal max-w-3xl mx-auto text-center">
+      <div class="font-script text-3xl sm:text-4xl text-ocean leading-snug">
+        We’d love to have you aboard again.
+      </div>
+    </div>
+  </section>
+</Layout>

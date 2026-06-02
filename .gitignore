@@ -1,0 +1,29 @@
+node_modules
+dist
+.astro
+.env
+.env.production
+.DS_Store
+*.log
+
+# Local Netlify folder
+.netlify
+
+# User-provided source photo archive (kept locally only; site uses /public/images)
+/images/
+
+# Loose photo downloads at project root
+/PHOTO-*
+/blenheimrowingclub*
+
+# Logo source at project root (copy is in public/images for the site)
+/logo.png
+/logo.jpg
+
+# Original Word docs / source files
+*.docx
+*.doc
+*.psd
+
+# Build artefacts inside studio
+studio/dist

@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { fetchEvents } from '../lib/events.js';
+
+const { events, source } = await fetchEvents();
+
+// Group events by year-month
+const grouped = events.reduce((acc, e) => {
+  const d = new Date(e.date);
+  const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+  const label = d.toLocaleDateString('en-NZ', { month: 'long', year: 'numeric' });
+  if (!acc[key]) acc[key] = { label, items: [] };
+  acc[key].items.push(e);
+  return acc;
+}, {});
+const monthKeys = Object.keys(grouped).sort();
+
+const scopeStyle = {
+  national: 'bg-coral/10 text-coral',
+  regional: 'bg-ocean/10 text-ocean',
+  club: 'bg-teal/15 text-ocean',
+};
+
+const fmtDay = (date) => {
+  const d = new Date(date);
+  return {
+    day: d.getDate(),
+    weekday: d.toLocaleDateString('en-NZ', { weekday: 'short' }),
+  };
+};
+---
+
+<Layout title="Regattas">
+  <PageHero
+    eyebrow="Where we race"
+    title="The 2026 calendar."
+  />
+
+  <section class="py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="reveal mb-10 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wider">
+        <span class="px-3 py-1.5 bg-coral/10 text-coral rounded-full">National</span>
+        <span class="px-3 py-1.5 bg-ocean/10 text-ocean rounded-full">Regional</span>
+        <span class="px-3 py-1.5 bg-teal/15 text-ocean rounded-full">Club</span>
+      </div>
+
+      <div class="space-y-12">
+        {monthKeys.map((k) => (
+          <div class="reveal">
+            <h2 class="font-display text-3xl sm:text-4xl text-navy mb-1">
+              <span class="font-script text-ocean text-2xl sm:text-3xl">{grouped[k].label.split(' ')[0]}</span>
+              <span class="text-navy/40">{grouped[k].label.split(' ')[1]}</span>
+            </h2>
+            <div class="h-px bg-slate-200 mb-6"></div>
+            <div class="space-y-3">
+              {grouped[k].items.map((e) => {
+                const dt = fmtDay(e.date);
+                return (
+                  <div class="group flex items-stretch gap-5 bg-white rounded-2xl border border-slate-100 hover:border-ocean/40 hover:shadow-md transition-all p-5">
+                    <div class="flex flex-col items-center justify-center min-w-[64px] bg-cream rounded-xl px-3 py-2">
+                      <div class="text-[10px] font-bold tracking-[0.2em] text-ocean uppercase">{dt.weekday}</div>
+                      <div class="font-script text-3xl text-navy leading-none mt-1">{dt.day}</div>
+                    </div>
+                    <div class="flex-1 flex flex-col justify-center">
+                      <div class="flex items-center gap-2 flex-wrap mb-1">
+                        <span class={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${scopeStyle[e.scope] || scopeStyle.club}`}>{e.scope}</span>
+                        <span class="text-xs text-slate-400">· {e.category}</span>
+                      </div>
+                      <h3 class="font-display text-xl text-navy leading-tight">{e.title}</h3>
+                      <div class="text-sm text-slate-500 mt-1 flex items-center gap-3 flex-wrap">
+                        <span class="flex items-center gap-1">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                          {e.time}
+                        </span>
+                        <span class="flex items-center gap-1">
+                          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                          {e.location}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="reveal mt-16 bg-cream rounded-2xl p-8 text-center">
+        <p class="text-sm text-slate-500 mb-1">
+          {source === 'live'
+            ? <>Live feed from <a href="https://rowingnz.kiwi" class="text-ocean hover:text-coral underline">Rowing New Zealand</a> — refreshed each build.</>
+            : <>Sourced from <a href="https://rowingnz.kiwi" class="text-ocean hover:text-coral underline">Rowing New Zealand</a> & <a href="https://rowit.nz" class="text-ocean hover:text-coral underline">rowIT</a>.</>}
+        </p>
+        <p class="text-xs text-slate-400">Always confirm dates with the regatta organiser before travelling.</p>
+      </div>
+    </div>
+  </section>
+</Layout>

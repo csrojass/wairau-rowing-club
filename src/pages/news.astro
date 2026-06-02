@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { fetchNews } from '../lib/news.js';
+import { fetchAnnouncements } from '../lib/sanity.js';
+
+const { stories, source } = await fetchNews();
+const { stories: clubNotices, source: clubSource } = await fetchAnnouncements({ limit: 6 });
+
+const fmtDate = (d) =>
+  new Date(d).toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Layout title="News">
+  <PageHero
+    eyebrow="What's happening"
+    title="News from the river."
+  />
+
+  <!-- Live: Rowing NZ -->
+  <section class="py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+        <div>
+          <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">Around the country</div>
+          <h2 class="font-display text-3xl sm:text-4xl text-navy">Rowing NZ stories</h2>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-500">
+          <span class={`w-1.5 h-1.5 rounded-full ${source === 'live' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`}></span>
+          {source === 'live' ? 'Live feed' : 'Cached'} from <a href="https://rowingnz.kiwi" class="text-ocean hover:text-coral underline ml-1">rowingnz.kiwi</a>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {stories.map((s, i) => (
+          <a href={s.url} target="_blank" rel="noopener" class={`reveal delay-${(i % 3) + 1} group bg-white border border-slate-100 hover:border-ocean/40 rounded-2xl overflow-hidden hover:shadow-xl transition-all`}>
+            {s.image && (
+              <div class="aspect-[16/10] overflow-hidden bg-slate-100">
+                <img src={s.image} alt="" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              </div>
+            )}
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-coral">{s.category}</span>
+                <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                <time class="text-xs text-slate-500">{fmtDate(s.date)}</time>
+              </div>
+              <h3 class="font-display text-xl text-navy leading-tight mb-3 group-hover:text-ocean transition-colors">{s.title}</h3>
+              {s.excerpt && <p class="text-sm text-slate-600 leading-relaxed line-clamp-3">{s.excerpt}</p>}
+              <div class="mt-4 text-coral font-bold text-xs inline-flex items-center gap-1">
+                Read on rowingnz.kiwi
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Club Notices (Sanity CMS) -->
+  <section class="bg-cream py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+        <div>
+          <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">From the boathouse</div>
+          <h2 class="font-display text-3xl sm:text-4xl text-navy">Club Notices</h2>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-500">
+          <span class={`w-1.5 h-1.5 rounded-full ${clubSource === 'sanity' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`}></span>
+          {clubSource === 'sanity' ? 'Live from CMS' : 'Demo data'}
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        {clubNotices.map((a, i) => (
+          <article id={a.slug} class={`reveal delay-${i + 1} group`}>
+            <div class="aspect-[4/5] rounded-2xl overflow-hidden mb-4 shadow-sm bg-slate-100">
+              {a.image ? (
+                <img src={a.image} alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              ) : (
+                <div class="w-full h-full bg-gradient-to-br from-ocean/20 to-teal/20"></div>
+              )}
+            </div>
+            <div class="flex items-center gap-3 mb-2">
+              {a.category && <span class="text-xs font-bold text-coral uppercase tracking-wider">{a.category}</span>}
+              {a.category && <span class="w-1 h-1 rounded-full bg-slate-300"></span>}
+              <time class="text-xs text-slate-500">{fmtDate(a.date)}</time>
+            </div>
+            <h3 class="font-display text-2xl text-navy leading-tight">{a.title}</h3>
+            {a.excerpt && <p class="text-sm text-slate-600 mt-2 leading-relaxed">{a.excerpt}</p>}
+          </article>
+        ))}
+      </div>
+
+      <div class="reveal mt-12 text-center">
+        <p class="text-sm text-slate-500">
+          Committee members can add news in the <a href="https://wairaurowing.sanity.studio" target="_blank" rel="noopener" class="text-ocean hover:text-coral underline">Sanity studio</a> — changes appear here on the next site rebuild.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

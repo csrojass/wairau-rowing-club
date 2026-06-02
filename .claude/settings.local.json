@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "WebSearch",
+      "WebFetch(domain:www.blenheimrowing.co.nz)",
+      "WebFetch(domain:www.tenniscanterbury.org)"
+    ]
+  }
+}

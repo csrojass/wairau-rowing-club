@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Layout title="About">
+  <PageHero
+    eyebrow="Our story"
+    title="Rowing the Wairau since 1910."
+    subtitle="More than a century of rowing, on one of New Zealand's finest stretches of flat water."
+  />
+
+  <!-- HISTORY -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <div class="reveal text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">History</div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl text-navy leading-tight mb-8">A club founded by 30 people in a Grovetown hall.</h2>
+
+      <div class="reveal prose prose-slate prose-lg max-w-none space-y-5 text-slate-700 leading-relaxed">
+        <p>
+          The Wairau Rowing Club was established on the <strong>27th of July 1910</strong>, following a general meeting held in the Grovetown Hall attended by approximately 30 people. A committee meeting on the <strong>31st July 1910</strong> chose the site for the first boat shed — on the Wairau River, 15 yards north of the old culvert. The secretary was instructed to write to the Spring Creek River Board for permission to erect it.
+        </p>
+        <p>
+          That site is still the home of the club today — at the end of <strong>Steam Wharf Road, Grovetown</strong>, 5&nbsp;km north-east of Blenheim.
+        </p>
+      </div>
+
+      <div class="reveal mt-12 bg-cream rounded-2xl p-8">
+        <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-2">The fourth clubhouse</div>
+        <h3 class="font-display text-2xl text-navy mb-4">Built in 2005.</h3>
+        <div class="space-y-4 text-slate-700 leading-relaxed">
+          <p>
+            The current clubhouse — built in 2005 — is the fourth in the club's history. The first two were lost to flooding over the years, forcing a move onto reclaimed land for the third, level with the protection stop bank.
+          </p>
+          <p>
+            The new building replaced an old iron-clad shed with limited facilities. It comprises a large boatshed area and basement, changing rooms, an upstairs lounge with balcony, committee room and kitchen — an attractive permanent facility built to last.
+          </p>
+          <p>
+            From the boathouse it's an easy 75-metre lawn walk down to the Wairau River and the sheltered long-distance training water it offers.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal mt-12">
+        <p class="text-slate-700 text-lg leading-relaxed">
+          The club is within easy cycling distance of Blenheim and serves as the home of rowing in Marlborough — including the <strong>Marlborough Girls' College</strong> and <strong>Marlborough Boys' College</strong> rowing programmes. Both colleges row in club colours at club regattas, and in their own school colours at the South Island Secondary Schools and National Championship regattas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE RIVER -->
+  <section class="bg-cream py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <div class="reveal text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">The river</div>
+      <h2 class="reveal font-display text-3xl sm:text-4xl text-navy leading-tight mb-8">
+        170 km long. <span class="font-script text-ocean text-2xl sm:text-3xl">11 km perfect for rowing.</span>
+      </h2>
+      <div class="reveal space-y-5 text-slate-700 text-lg leading-relaxed">
+        <p>
+          At 170&nbsp;km, the Wairau is one of the longer rivers in the South Island. From the Spenser Mountains the river meanders down the Wairau Valley as a braided river — until it reaches Spring Creek, where it transforms into 11&nbsp;km of calm, flat water making its way to the sea.
+        </p>
+        <p>That stretch is our training ground — and one of the best rowing waters in New Zealand.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="reveal font-display text-3xl sm:text-4xl text-navy text-center mb-12">
+        What we stand for.
+      </h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="reveal bg-white rounded-3xl p-8">
+          <div class="w-14 h-14 bg-ocean/10 text-ocean rounded-full flex items-center justify-center mb-6">
+            <Icon name="circle" class="w-7 h-7" />
+          </div>
+          <h3 class="font-display font-bold text-2xl text-navy mb-3">Community</h3>
+          <p class="text-slate-600 leading-relaxed">A welcoming home for rowers of every age and ability — from school squads to masters.</p>
+        </div>
+        <div class="reveal delay-1 bg-white rounded-3xl p-8">
+          <div class="w-14 h-14 bg-ocean/10 text-ocean rounded-full flex items-center justify-center mb-6">
+            <Icon name="flow" class="w-7 h-7" />
+          </div>
+          <h3 class="font-display font-bold text-2xl text-navy mb-3">Performance</h3>
+          <p class="text-slate-600 leading-relaxed">A pathway from learn-to-row through to the New Zealand high-performance squad.</p>
+        </div>
+        <div class="reveal delay-2 bg-white rounded-3xl p-8">
+          <div class="w-14 h-14 bg-ocean/10 text-ocean rounded-full flex items-center justify-center mb-6">
+            <Icon name="tree" class="w-7 h-7" />
+          </div>
+          <h3 class="font-display font-bold text-2xl text-navy mb-3">Heritage</h3>
+          <p class="text-slate-600 leading-relaxed">115 years of stories, traditions and rowing memories — and we're still being written.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
