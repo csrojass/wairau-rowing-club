@@ -9,8 +9,8 @@ export const site = {
     'Wairau Rowing Club has been on the banks of the Wairau River since 1910. A home for club, college, corporate, and high-performance rowing in Marlborough, New Zealand.',
   founded: 1910,
   location: 'Wairau River, Marlborough, New Zealand',
-  email: 'markjames12@hotmail.com',
-  phone: '0275 780 011',
+  email: 'secretary@wairaurowingclub.co.nz',
+  phone: '',
 };
 
 // Programme overview — sourced from WRC's official programme description.
@@ -153,7 +153,7 @@ export const rowingConnect = {
 // Social links — the WRC Facebook page (the one with the old green shed
 // cover photo). The user will update this when the new webpage goes live.
 export const social = {
-  facebookUrl: '',  // ← paste the correct WRC Facebook URL here
+  facebookUrl: 'https://www.facebook.com/groups/210870995389',
   instagramUrl: '',
 };
 

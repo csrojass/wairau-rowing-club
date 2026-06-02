@@ -17,10 +17,13 @@ const programImageSlug = (slug) => slug.replace('-rowing', '');
 import { imageUrl } from '../lib/sanity.js';
 ---
 
-<Layout title="Home">
+<Layout
+  title="Home"
+  description="The Wairau Rowing Club has been rowing the Wairau River since 1910 — Marlborough's home for school, club, masters and corporate rowing."
+>
   <!-- HERO -->
   <section class="relative bg-navy text-white overflow-hidden min-h-[92vh] flex items-end">
-    <img src={heroImage} alt="" class="absolute inset-0 w-full h-full object-cover" />
+    <img src={heroImage} alt="Wairau Rowing Club crews on the Wairau River" class="absolute inset-0 w-full h-full object-cover" />
     <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-navy/20"></div>
     <div class="absolute inset-0 bg-gradient-to-r from-navy/70 via-transparent to-transparent"></div>
 

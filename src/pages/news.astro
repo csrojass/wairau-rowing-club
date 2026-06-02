@@ -11,7 +11,10 @@ const fmtDate = (d) =>
   new Date(d).toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 
-<Layout title="News">
+<Layout
+  title="News"
+  description="Latest news from the Wairau Rowing Club and Rowing New Zealand."
+>
   <PageHero
     eyebrow="What's happening"
     title="News from the river."
@@ -25,10 +28,9 @@ const fmtDate = (d) =>
           <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">Around the country</div>
           <h2 class="font-display text-3xl sm:text-4xl text-navy">Rowing NZ stories</h2>
         </div>
-        <div class="flex items-center gap-2 text-xs text-slate-500">
-          <span class={`w-1.5 h-1.5 rounded-full ${source === 'live' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`}></span>
-          {source === 'live' ? 'Live feed' : 'Cached'} from <a href="https://rowingnz.kiwi" class="text-ocean hover:text-coral underline ml-1">rowingnz.kiwi</a>
-        </div>
+        <p class="text-xs text-slate-500">
+          Sourced from <a href="https://rowingnz.kiwi" class="text-ocean hover:text-coral underline">rowingnz.kiwi</a>
+        </p>
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -66,10 +68,6 @@ const fmtDate = (d) =>
           <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">From the boathouse</div>
           <h2 class="font-display text-3xl sm:text-4xl text-navy">Club Notices</h2>
         </div>
-        <div class="flex items-center gap-2 text-xs text-slate-500">
-          <span class={`w-1.5 h-1.5 rounded-full ${clubSource === 'sanity' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'}`}></span>
-          {clubSource === 'sanity' ? 'Live from CMS' : 'Demo data'}
-        </div>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6">
@@ -93,11 +91,6 @@ const fmtDate = (d) =>
         ))}
       </div>
 
-      <div class="reveal mt-12 text-center">
-        <p class="text-sm text-slate-500">
-          Committee members can add news in the <a href="https://wairaurowing.sanity.studio" target="_blank" rel="noopener" class="text-ocean hover:text-coral underline">Sanity studio</a> — changes appear here on the next site rebuild.
-        </p>
-      </div>
     </div>
   </section>
 </Layout>

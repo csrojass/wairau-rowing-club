@@ -2,13 +2,48 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { fetchSettings } from '../lib/sanity.js';
-const { site } = await fetchSettings();
+const { site, social } = await fetchSettings();
 
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  noindex?: boolean;
 }
-const { title, description = site.description } = Astro.props;
+const { title, description = site.description, image = '/images/hero.jpg', noindex = false } = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://wairaurowingclub.co.nz';
+const canonical = new URL(Astro.url.pathname, Astro.site || 'https://wairaurowingclub.co.nz').toString().replace(/\/$/, '') || siteUrl;
+const ogImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
+const fullTitle = `${title} — ${site.name}`;
+
+// JSON-LD structured data — SportsClub schema. Helps Google Knowledge Panel.
+const sameAs = [];
+if (social?.facebookUrl) sameAs.push(social.facebookUrl);
+if (social?.instagramUrl) sameAs.push(social.instagramUrl);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsClub',
+  name: site.name,
+  alternateName: 'WRC',
+  description: site.description,
+  url: siteUrl,
+  logo: `${siteUrl}/images/logo.png`,
+  image: `${siteUrl}/images/hero.jpg`,
+  foundingDate: '1910-07-27',
+  sport: 'Rowing',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Steam Wharf Road',
+    addressLocality: 'Grovetown',
+    addressRegion: 'Marlborough',
+    postalCode: '7202',
+    addressCountry: 'NZ',
+  },
+  email: site.email,
+  ...(sameAs.length ? { sameAs } : {}),
+};
 ---
 
 <!doctype html>
@@ -16,16 +51,42 @@ const { title, description = site.description } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#0A1F14" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {/* Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_NZ" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    {/* Twitter Card */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {/* Structured data */}
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Playwrite+DE+Grund:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <title>{title} — {site.name}</title>
   </head>
   <body class="bg-white text-slate-800 font-sans antialiased">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-coral focus:text-white focus:px-3 focus:py-2 focus:rounded">Skip to content</a>
