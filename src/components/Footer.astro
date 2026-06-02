@@ -1,5 +1,7 @@
 ---
-import { site, contacts, social } from '../data/site.js';
+import { fetchContacts, fetchSettings } from '../lib/sanity.js';
+const { contacts } = await fetchContacts();
+const { site, social } = await fetchSettings();
 const year = new Date().getFullYear();
 ---
 

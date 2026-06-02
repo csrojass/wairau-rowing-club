@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
-import { rowingConnect } from '../data/site.js';
+import { fetchSettings } from '../lib/sanity.js';
+const { rowingConnect } = await fetchSettings();
 ---
 
 <Layout title="Membership">

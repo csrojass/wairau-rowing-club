@@ -1,7 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
-import { contacts } from '../data/site.js';
+import { fetchContacts } from '../lib/sanity.js';
+
+const { contacts } = await fetchContacts();
 ---
 
 <Layout title="Contact">

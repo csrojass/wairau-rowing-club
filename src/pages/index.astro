@@ -1,21 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
-import { site, programs, announcements } from '../data/site.js';
 import { fetchEvents } from '../lib/events.js';
+import { fetchPrograms, fetchSettings, fetchAnnouncements } from '../lib/sanity.js';
 
 const { events } = await fetchEvents();
+const { featured: programs } = await fetchPrograms();
+const { heroImage, aboutImage, site, social } = await fetchSettings();
+const { stories: announcements } = await fetchAnnouncements({ limit: 3 });
 
 const fmtDate = (d) =>
   new Date(d).toLocaleDateString('en-NZ', { day: 'numeric', month: 'short', year: 'numeric' });
 
 const upcoming = events.slice(0, 3);
+const programImageSlug = (slug) => slug.replace('-rowing', '');
+import { imageUrl } from '../lib/sanity.js';
 ---
 
 <Layout title="Home">
   <!-- HERO -->
   <section class="relative bg-navy text-white overflow-hidden min-h-[92vh] flex items-end">
-    <img src="/images/hero.jpg" alt="" class="absolute inset-0 w-full h-full object-cover" />
+    <img src={heroImage} alt="" class="absolute inset-0 w-full h-full object-cover" />
     <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-navy/20"></div>
     <div class="absolute inset-0 bg-gradient-to-r from-navy/70 via-transparent to-transparent"></div>
 
@@ -58,7 +63,7 @@ const upcoming = events.slice(0, 3);
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {programs.map((p, i) => (
           <a href={p.slug === 'alumni' ? '/alumni' : `/programs#${p.slug}`} class={`reveal delay-${i + 1} group relative aspect-[3/4] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all hover:-translate-y-1`}>
-            <img src={`/images/program-${p.slug.replace('-rowing', '')}.jpg`} alt={p.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <img src={imageUrl(p.image?.asset, { width: 800 }) || `/images/program-${programImageSlug(p.slug)}.jpg`} alt={p.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent"></div>
             <div class="absolute inset-0 p-6 flex flex-col justify-between text-white">
               <div class="w-12 h-12 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center text-teal border border-white/20">
@@ -80,7 +85,7 @@ const upcoming = events.slice(0, 3);
     <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
       <div class="reveal relative order-2 lg:order-1">
         <div class="aspect-[4/5] rounded-3xl shadow-2xl overflow-hidden">
-          <img src="/images/about.jpg" alt="On the river" class="w-full h-full object-cover" />
+          <img src={aboutImage} alt="On the river" class="w-full h-full object-cover" />
         </div>
         <div class="absolute -bottom-6 -right-6 bg-ocean text-white rounded-2xl px-6 py-5 shadow-xl hidden sm:block">
           <div class="font-script text-3xl leading-none">1910</div>
@@ -121,12 +126,12 @@ const upcoming = events.slice(0, 3);
       <div class="grid md:grid-cols-3 gap-6">
         {announcements.map((a, i) => (
           <article class={`reveal delay-${i + 1} group`}>
-            <div class="aspect-[4/5] rounded-2xl overflow-hidden mb-4 shadow-sm">
-              <img src={`/images/news-${i + 1}.jpg`} alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div class="aspect-[4/5] rounded-2xl overflow-hidden mb-4 shadow-sm bg-slate-100">
+              {a.image && <img src={a.image} alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />}
             </div>
             <div class="flex items-center gap-3 mb-2">
-              <span class="text-xs font-bold text-coral uppercase tracking-wider">{a.category}</span>
-              <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+              {a.category && <span class="text-xs font-bold text-coral uppercase tracking-wider">{a.category}</span>}
+              {a.category && <span class="w-1 h-1 rounded-full bg-slate-300"></span>}
               <time class="text-xs text-slate-500">{fmtDate(a.date)}</time>
             </div>
             <h3 class="font-display text-2xl text-navy leading-tight group-hover:text-ocean transition-colors">{a.title}</h3>

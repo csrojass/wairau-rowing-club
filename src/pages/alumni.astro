@@ -2,8 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
-import { rowingConnect, contacts, social, heritage } from '../data/site.js';
+import { fetchContacts, fetchSettings } from '../lib/sanity.js';
 
+const { contacts } = await fetchContacts();
+const { rowingConnect, social, heritage } = await fetchSettings();
 const secretary = contacts.find((c) => c.role === 'Secretary');
 ---
 
