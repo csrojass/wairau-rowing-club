@@ -112,22 +112,40 @@ const secretary = contacts.find((c) => c.role === 'Secretary');
 
   <!-- Heritage / First Minutes -->
   <section class="py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
-    <div class="reveal max-w-3xl mx-auto bg-white border border-slate-200 rounded-3xl p-8 sm:p-10">
-      <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">From the archives</div>
-      <h3 class="font-display text-2xl sm:text-3xl text-navy mb-4">The 1910 first minutes.</h3>
-      <p class="text-slate-600 leading-relaxed mb-6">
-        Read the original committee minutes from <strong>31 July 1910</strong> — the day a site was chosen for the first boat shed at Grovetown, 15 yards north of the old culvert.
-      </p>
-      {heritage.firstMinutesPdf ? (
-        <a href={heritage.firstMinutesPdf} target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-navy hover:bg-ocean text-white font-bold px-6 py-3 rounded-full text-sm transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          Open the PDF
-        </a>
-      ) : (
-        <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-500 font-semibold px-6 py-3 rounded-full text-sm">
-          PDF coming soon
-        </div>
-      )}
+    <div class="reveal max-w-5xl mx-auto bg-white border border-slate-200 rounded-3xl p-8 sm:p-10 grid md:grid-cols-5 gap-8 lg:gap-12 items-center">
+      <div class="md:col-span-2">
+        {heritage.firstMinutesPdf ? (
+          <a href={heritage.firstMinutesPdf} target="_blank" rel="noopener" class="group block rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow border border-slate-100">
+            <img
+              src="/images/first-minutes-1910-page1.jpg"
+              alt="First page of the original Wairau Rowing Club committee minutes, 31 July 1910"
+              class="w-full h-auto group-hover:scale-[1.01] transition-transform duration-700"
+              loading="lazy"
+            />
+          </a>
+        ) : (
+          <div class="aspect-[3/4] rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 text-xs">
+            Snapshot coming soon
+          </div>
+        )}
+      </div>
+      <div class="md:col-span-3">
+        <div class="text-coral font-bold text-xs uppercase tracking-[0.18em] mb-3">From the archives</div>
+        <h3 class="font-display text-2xl sm:text-3xl text-navy mb-4">The 1910 first minutes.</h3>
+        <p class="text-slate-600 leading-relaxed mb-6">
+          Read the original committee minutes from <strong>31 July 1910</strong> — the day a site was chosen for the first boat shed at Grovetown, 15 yards north of the old culvert.
+        </p>
+        {heritage.firstMinutesPdf ? (
+          <a href={heritage.firstMinutesPdf} target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-navy hover:bg-ocean text-white font-bold px-6 py-3 rounded-full text-sm transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Open the full PDF
+          </a>
+        ) : (
+          <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-500 font-semibold px-6 py-3 rounded-full text-sm">
+            PDF coming soon
+          </div>
+        )}
+      </div>
     </div>
   </section>
 
