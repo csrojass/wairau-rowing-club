@@ -42,13 +42,13 @@ const secretary = contacts.find((c) => c.role === 'Secretary');
 
       <div class="grid md:grid-cols-3 gap-6">
         <!-- 1. Rowing Connect -->
-        <div class="reveal bg-white rounded-3xl p-7">
+        <div class="reveal bg-white rounded-3xl p-7 flex flex-col">
           <div class="w-14 h-14 rounded-full bg-ocean/10 text-ocean flex items-center justify-center mb-5">
             <Icon name="boat" class="w-7 h-7" />
           </div>
           <div class="text-xs font-bold uppercase tracking-wider text-coral mb-2">01</div>
           <h3 class="font-display text-2xl text-navy mb-3">Register on Rowing Connect</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mb-5">
+          <p class="text-slate-600 text-sm leading-relaxed mb-5 flex-grow">
             Rowing NZ’s free national platform. Register as a supporter, previous member or volunteer — it costs nothing and keeps you in the loop.
           </p>
           {rowingConnect.url ? (
@@ -69,13 +69,13 @@ const secretary = contacts.find((c) => c.role === 'Secretary');
         </div>
 
         <!-- 2. Facebook -->
-        <div class="reveal delay-1 bg-white rounded-3xl p-7">
+        <div class="reveal delay-1 bg-white rounded-3xl p-7 flex flex-col">
           <div class="w-14 h-14 rounded-full bg-ocean/10 text-ocean flex items-center justify-center mb-5">
             <Icon name="circle" class="w-7 h-7" />
           </div>
           <div class="text-xs font-bold uppercase tracking-wider text-coral mb-2">02</div>
           <h3 class="font-display text-2xl text-navy mb-3">Follow on Facebook</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mb-5">
+          <p class="text-slate-600 text-sm leading-relaxed mb-5 flex-grow">
             See what the current crews are up to, regatta results, and club photos. The fastest way back into the conversation.
           </p>
           {social.facebookUrl ? (
@@ -91,13 +91,13 @@ const secretary = contacts.find((c) => c.role === 'Secretary');
         </div>
 
         <!-- 3. Email -->
-        <div class="reveal delay-2 bg-white rounded-3xl p-7">
+        <div class="reveal delay-2 bg-white rounded-3xl p-7 flex flex-col">
           <div class="w-14 h-14 rounded-full bg-ocean/10 text-ocean flex items-center justify-center mb-5">
             <Icon name="flow" class="w-7 h-7" />
           </div>
           <div class="text-xs font-bold uppercase tracking-wider text-coral mb-2">03</div>
           <h3 class="font-display text-2xl text-navy mb-3">Drop us a line</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mb-5">
+          <p class="text-slate-600 text-sm leading-relaxed mb-5 flex-grow">
             Got photos, stories, or memorabilia? Want to organise a reunion crew? Email our secretary {secretary?.name}.
           </p>
           {secretary?.email && (

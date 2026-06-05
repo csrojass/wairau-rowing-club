@@ -127,7 +127,7 @@ export const contacts = [
   {
     name: 'Kate Vavasour',
     role: 'Secretary',
-    email: 'Wairaurowingsecretary@gmail.com',
+    email: 'secretary@wairaurowingclub.co.nz',
   },
   {
     name: 'Clayton Lindstrom',
