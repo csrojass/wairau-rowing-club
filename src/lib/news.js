@@ -51,14 +51,29 @@ function categorize(title, excerpt) {
   return 'News';
 }
 
+async function fetchWithRetry(url, attempts = 3, timeoutMs = 15000) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': 'WairauRowingClub/1.0 (site build)' },
+        signal: AbortSignal.timeout?.(timeoutMs),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      lastErr = err;
+      console.warn(`[news] fetch attempt ${i + 1} failed: ${err.message}`);
+      // Small backoff between attempts
+      if (i < attempts - 1) await new Promise((r) => setTimeout(r, 1000 * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 export async function fetchNews() {
   try {
-    const res = await fetch(API_URL, {
-      headers: { 'User-Agent': 'WairauRowingClub/1.0 (site build)' },
-      signal: AbortSignal.timeout?.(10000),
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const posts = await res.json();
+    const posts = await fetchWithRetry(API_URL);
     if (!Array.isArray(posts) || posts.length === 0) throw new Error('No posts');
 
     const stories = posts.map((p) => {
@@ -78,17 +93,9 @@ export async function fetchNews() {
 
     return { stories, source: 'live' };
   } catch (err) {
-    console.warn('[news] Live fetch failed, using fallback:', err.message);
-    // Adapt the static announcements to the same shape
-    const stories = fallback.map((a, i) => ({
-      title: a.title,
-      slug: a.slug,
-      url: `/news#${a.slug}`,
-      date: a.date,
-      excerpt: a.excerpt,
-      image: `/images/news-${i + 1}.jpg`,
-      category: a.category,
-    }));
-    return { stories, source: 'fallback' };
+    console.warn('[news] Live fetch failed — RNZ section will be hidden:', err.message);
+    // Return empty array — the news.astro template hides the section if there are
+    // no stories rather than rendering broken/loop-back internal links.
+    return { stories: [], source: 'unavailable' };
   }
 }

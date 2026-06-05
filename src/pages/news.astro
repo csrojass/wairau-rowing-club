@@ -20,6 +20,7 @@ const fmtDate = (d) =>
     title="News from the river."
   />
 
+  {stories.length > 0 && (
   <!-- Live: Rowing NZ -->
   <section class="py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl mx-auto">
@@ -59,6 +60,7 @@ const fmtDate = (d) =>
       </div>
     </div>
   </section>
+  )}
 
   <!-- Club Notices (Sanity CMS) -->
   <section class="bg-cream py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
