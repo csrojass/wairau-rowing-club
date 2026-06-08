@@ -320,8 +320,8 @@ export const navLinks = [
   { href: '/programs', label: 'Programs' },
   { href: '/regattas', label: 'Regattas' },
   { href: '/membership', label: 'Membership' },
-  { href: '/alumni', label: 'Alumni' },
   { href: '/news', label: 'News' },
-  { href: '/about', label: 'About' },
+  { href: '/about', label: 'Our Story' },
+  { href: '/about#alumni', label: 'Alumni' },
   { href: '/contact', label: 'Contact' },
 ];

@@ -23,7 +23,7 @@ const ctaFor = (p) => {
     return { href: p.ctaUrl, label: p.ctaLabel || 'Get involved' };
   }
   // Fallback based on slug.
-  if (p.slug === 'alumni') return { href: '/alumni', label: 'Reconnect' };
+  if (p.slug === 'alumni') return { href: '/about#alumni', label: 'Reconnect' };
   if (p.slug === 'corporate-rowing') return { href: corpMailto, label: 'Email Barry' };
   return { href: '/membership', label: 'Get involved' };
 };

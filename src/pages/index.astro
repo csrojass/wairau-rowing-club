@@ -65,7 +65,7 @@ import { imageUrl } from '../lib/sanity.js';
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {programs.map((p, i) => (
-          <a href={p.slug === 'alumni' ? '/alumni' : `/programs#${p.slug}`} class={`reveal delay-${i + 1} group relative aspect-[3/4] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all hover:-translate-y-1`}>
+          <a href={p.slug === 'alumni' ? '/about#alumni' : `/programs#${p.slug}`} class={`reveal delay-${i + 1} group relative aspect-[3/4] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all hover:-translate-y-1`}>
             <img src={imageUrl(p.image, { width: 800 }) || `/images/program-${programImageSlug(p.slug)}.jpg`} alt={p.title} class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent"></div>
             <div class="absolute inset-0 p-6 flex flex-col justify-between text-white">
