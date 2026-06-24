@@ -147,5 +147,11 @@ function redirectOrJson(req, origin, env) {
     return json({ ok: true });
   }
   const target = `${env.SITE_ORIGIN?.split(',')[0]?.trim() || origin || ''}/thanks`;
-  return Response.redirect(target, 303);
+  // Build the redirect manually — `Response.redirect()` returns an immutable
+  // response, so a later `headers.set()` (in cors()) throws and crashes the
+  // Worker with Error 1101. A hand-built Response keeps headers mutable.
+  return new Response(null, {
+    status: 303,
+    headers: { Location: target },
+  });
 }
