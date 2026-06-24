@@ -2,6 +2,11 @@ name = "wrc-forms"
 main = "src/index.js"
 compatibility_date = "2026-06-02"
 
+# Custom domain — forms submit to forms.wairaurowingclub.co.nz
+routes = [
+  { pattern = "forms.wairaurowingclub.co.nz", custom_domain = true }
+]
+
 # Secrets to set via `wrangler secret put`:
 #   RESEND_API_KEY   — sign up at resend.com, free 100/day
 #   TO_EMAIL         — where form submissions are sent (e.g. wairaurowingsecretary@gmail.com)
