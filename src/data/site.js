@@ -199,8 +199,17 @@ export const announcements = [
   },
 ];
 
-// 2026/27 rowing season — the official Wairau Rowing Club regatta calendar.
+// 2026/27 rowing season — the official Wairau Rowing Club regatta calendar,
+// plus club meetings and events.
 export const events = [
+  {
+    title: 'Annual General Meeting',
+    date: '2026-08-12',
+    time: '7:00 PM',
+    location: 'Wairau Rowing Club, 115 Steamer Wharf, Grovetown',
+    category: 'Club Meeting',
+    scope: 'club',
+  },
   {
     title: 'New Zealand Masters Championships',
     date: '2026-09-19',
