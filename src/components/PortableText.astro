@@ -1,0 +1,102 @@
+---
+// Minimal Portable Text renderer for Sanity block content.
+// Handles: paragraphs, h2–h4, blockquote, bullet/numbered lists,
+// and inline marks (strong, em, underline, links).
+
+interface Props {
+  value: any[] | null | undefined;
+}
+const { value } = Astro.props;
+
+const blocks = Array.isArray(value) ? value.filter((b) => b?._type === 'block') : [];
+
+// Group consecutive list items so they render inside a single <ul>/<ol>.
+type Group = { type: 'list'; listItem: string; items: any[] } | { type: 'block'; block: any };
+const groups: Group[] = [];
+for (const block of blocks) {
+  if (block.listItem) {
+    const last = groups[groups.length - 1];
+    if (last && last.type === 'list' && last.listItem === block.listItem) {
+      last.items.push(block);
+    } else {
+      groups.push({ type: 'list', listItem: block.listItem, items: [block] });
+    }
+  } else {
+    groups.push({ type: 'block', block });
+  }
+}
+
+// Turn a block's children + markDefs into safe HTML.
+function renderSpans(block: any): string {
+  const markDefs = block.markDefs || [];
+  return (block.children || [])
+    .map((child: any) => {
+      let html = escapeHtml(child.text ?? '');
+      for (const mark of child.marks || []) {
+        const def = markDefs.find((d: any) => d._key === mark);
+        if (def?._type === 'link' && def.href) {
+          const external = /^https?:\/\//i.test(def.href);
+          const attrs = external ? ' target="_blank" rel="noopener"' : '';
+          html = `<a href="${escapeHtml(def.href)}"${attrs} class="text-ocean hover:text-coral underline">${html}</a>`;
+        } else if (mark === 'strong') {
+          html = `<strong>${html}</strong>`;
+        } else if (mark === 'em') {
+          html = `<em>${html}</em>`;
+        } else if (mark === 'underline') {
+          html = `<span class="underline">${html}</span>`;
+        } else if (mark === 'code') {
+          html = `<code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm">${html}</code>`;
+        }
+      }
+      return html;
+    })
+    .join('');
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+const headingClass: Record<string, string> = {
+  h1: 'font-display text-3xl sm:text-4xl text-navy mt-12 mb-4 leading-tight',
+  h2: 'font-display text-2xl sm:text-3xl text-navy mt-10 mb-4 leading-tight',
+  h3: 'font-display text-xl sm:text-2xl text-navy mt-8 mb-3 leading-tight',
+  h4: 'font-display text-lg sm:text-xl text-navy mt-6 mb-2 leading-tight',
+};
+---
+
+<div class="portable-text">
+  {groups.map((group) =>
+    group.type === 'list' ? (
+      group.listItem === 'number' ? (
+        <ol class="list-decimal pl-6 space-y-2 my-5 text-slate-700 leading-relaxed marker:text-ocean">
+          {group.items.map((item) => (
+            <li set:html={renderSpans(item)} />
+          ))}
+        </ol>
+      ) : (
+        <ul class="list-disc pl-6 space-y-2 my-5 text-slate-700 leading-relaxed marker:text-ocean">
+          {group.items.map((item) => (
+            <li set:html={renderSpans(item)} />
+          ))}
+        </ul>
+      )
+    ) : group.block.style === 'blockquote' ? (
+      <blockquote class="border-l-4 border-ocean/40 pl-5 my-6 italic text-slate-600">
+        <p set:html={renderSpans(group.block)} />
+      </blockquote>
+    ) : headingClass[group.block.style] ? (
+      <Fragment>
+        {group.block.style === 'h1' && <h2 class={headingClass.h1} set:html={renderSpans(group.block)} />}
+        {group.block.style === 'h2' && <h2 class={headingClass.h2} set:html={renderSpans(group.block)} />}
+        {group.block.style === 'h3' && <h3 class={headingClass.h3} set:html={renderSpans(group.block)} />}
+        {group.block.style === 'h4' && <h4 class={headingClass.h4} set:html={renderSpans(group.block)} />}
+      </Fragment>
+    ) : (
+      <p class="text-slate-700 leading-relaxed my-5" set:html={renderSpans(group.block)} />
+    )
+  )}
+</div>

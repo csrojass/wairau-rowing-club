@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PortableText from '../../components/PortableText.astro';
+import { fetchAnnouncements } from '../../lib/sanity.js';
+
+export async function getStaticPaths() {
+  const { stories } = await fetchAnnouncements({ limit: 100 });
+  return stories
+    .filter((s) => s.slug)
+    .map((story) => ({
+      params: { slug: story.slug },
+      props: { story },
+    }));
+}
+
+const { story } = Astro.props;
+
+const fmtDate = (d) =>
+  new Date(d).toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Layout
+  title={story.title}
+  description={story.excerpt || `${story.title} — Wairau Rowing Club`}
+  image={story.imageLarge || story.image || '/images/hero.jpg'}
+>
+  <!-- Article header -->
+  <section class="relative bg-navy text-white overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-navy via-[#0a3a22] to-ocean opacity-95"></div>
+    <div class="absolute inset-0 bg-water-pattern opacity-40"></div>
+
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+      <a href="/news" class="inline-flex items-center gap-2 text-teal hover:text-white text-sm font-bold mb-6 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        All news
+      </a>
+      <div class="flex items-center gap-3 mb-4 text-xs">
+        {story.category && (
+          <span class="bg-white/15 backdrop-blur px-3 py-1 rounded-full font-bold uppercase tracking-wider text-teal border border-white/10">
+            {story.category}
+          </span>
+        )}
+        <time class="text-white/70">{fmtDate(story.date)}</time>
+      </div>
+      <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight">{story.title}</h1>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 leading-none">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class="w-full h-12">
+        <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="white"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Article body -->
+  <article class="py-14 lg:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      {story.imageLarge && (
+        <img
+          src={story.imageLarge}
+          alt=""
+          class="w-full rounded-3xl shadow-lg mb-10"
+        />
+      )}
+
+      {story.excerpt && (
+        <p class="text-xl text-slate-700 leading-relaxed font-medium mb-8 pb-8 border-b border-slate-200">
+          {story.excerpt}
+        </p>
+      )}
+
+      {story.body ? (
+        <PortableText value={story.body} />
+      ) : (
+        <p class="text-slate-500 italic">Full details coming soon.</p>
+      )}
+
+      <div class="mt-14 pt-8 border-t border-slate-200 flex flex-wrap gap-4 items-center justify-between">
+        <a href="/news" class="inline-flex items-center gap-2 text-ocean font-bold hover:text-coral transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back to all news
+        </a>
+        <a href="/contact" class="inline-flex items-center gap-2 bg-navy hover:bg-ocean text-white font-bold px-6 py-3 rounded-full text-sm transition-colors">
+          Get in touch
+        </a>
+      </div>
+    </div>
+  </article>
+</Layout>

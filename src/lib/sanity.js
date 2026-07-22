@@ -114,6 +114,8 @@ export async function fetchAnnouncements({ limit = 12 } = {}) {
       category: d.category,
       excerpt: d.excerpt,
       image: imageUrl(d.image, { width: 800 }) || null,
+      imageLarge: imageUrl(d.image, { width: 1600 }) || null,
+      body: d.body || null,
     })),
     source,
   };

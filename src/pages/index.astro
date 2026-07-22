@@ -128,7 +128,7 @@ import { imageUrl } from '../lib/sanity.js';
 
       <div class="grid md:grid-cols-3 gap-6">
         {announcements.map((a, i) => (
-          <article class={`reveal delay-${i + 1} group`}>
+          <a href={`/news/${a.slug}`} class={`reveal delay-${i + 1} group block`}>
             <div class="aspect-[4/5] rounded-2xl overflow-hidden mb-4 shadow-sm bg-slate-100">
               {a.image && <img src={a.image} alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />}
             </div>
@@ -138,7 +138,7 @@ import { imageUrl } from '../lib/sanity.js';
               <time class="text-xs text-slate-500">{fmtDate(a.date)}</time>
             </div>
             <h3 class="font-display text-2xl text-navy leading-tight group-hover:text-ocean transition-colors">{a.title}</h3>
-          </article>
+          </a>
         ))}
       </div>
     </div>

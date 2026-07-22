@@ -3,7 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import { fetchEvents } from '../lib/events.js';
 
-const { events, source } = await fetchEvents();
+const { events: allEvents, source } = await fetchEvents();
+
+// This page lists racing only — club meetings (AGM, etc.) live in News.
+const events = allEvents.filter((e) => e.category !== 'Club Meeting');
 
 // Group events by year-month
 const grouped = events.reduce((acc, e) => {
