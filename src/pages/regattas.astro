@@ -5,8 +5,9 @@ import { fetchEvents } from '../lib/events.js';
 
 const { events: allEvents, source } = await fetchEvents();
 
-// This page lists racing only — club meetings (AGM, etc.) live in News.
-const events = allEvents.filter((e) => e.category !== 'Club Meeting');
+// This page lists the full calendar. Events flagged `newsOnly` (e.g. the
+// club AGM, which has its own full notice under News) are hidden here.
+const events = allEvents.filter((e) => !e.newsOnly);
 
 // Group events by year-month
 const grouped = events.reduce((acc, e) => {
