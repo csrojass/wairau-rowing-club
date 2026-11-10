@@ -203,6 +203,14 @@ export const announcements = [
 // plus club meetings and events.
 export const events = [
   {
+    title: 'Club Opening Day',
+    date: '2026-11-14',
+    time: '9:30 AM',
+    location: 'Wairau Rowing Club, 115 Steam Wharf Road, Grovetown',
+    category: 'Club Event',
+    scope: 'club',
+  },
+  {
     title: 'Annual General Meeting',
     date: '2026-08-12',
     time: '7:00 PM',
